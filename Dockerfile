@@ -1,7 +1,7 @@
 # ===========================
-# Imagen base con PHP-FPM
+# Imagen base con PHP
 # ===========================
-FROM php:8.2-fpm
+FROM php:8.2-cli
 
 # ===========================
 # Instalar dependencias del sistema y extensiones de PHP
@@ -60,11 +60,11 @@ RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/bootstrap/cache
 
 # ===========================
-# Exponer puerto para PHP-FPM
+# Exponer puerto HTTP
 # ===========================
-EXPOSE 9000
+EXPOSE 8080
 
 # ===========================
-# Comando por defecto
+# Comando por defecto para servir Laravel
 # ===========================
-CMD ["php-fpm"]
+CMD php artisan serve --host=0.0.0.0 --port=8080
