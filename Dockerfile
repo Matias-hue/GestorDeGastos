@@ -1,5 +1,5 @@
 # ===========================
-# Imagen base con PHP
+# Imagen base con PHP-FPM
 # ===========================
 FROM php:8.2-cli
 
@@ -15,8 +15,8 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     libzip-dev \
-    mariadb-client \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ===========================
@@ -49,8 +49,7 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 # ===========================
 # Instalar dependencias de Node.js y construir assets
 # ===========================
-RUN npm install
-RUN npm run build
+RUN npm install && npm run build
 
 # ===========================
 # Dar permisos correctos
@@ -65,6 +64,6 @@ RUN chown -R www-data:www-data /var/www/html \
 EXPOSE 8080
 
 # ===========================
-# Comando por defecto para servir Laravel
+# Comando por defecto (Laravel)
 # ===========================
-CMD php artisan serve --host=0.0.0.0 --port=8080
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
