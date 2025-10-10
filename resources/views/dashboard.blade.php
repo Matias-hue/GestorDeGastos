@@ -28,6 +28,8 @@
         @endif
     </section>
 
+    <button onclick="location.href='{{ route('principal') }}'">Volver al Inicio</button>
+
     <!-- Resumen de gastos -->
     @if($presupuesto)
     <section class="resumen-section">
