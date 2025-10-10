@@ -7,13 +7,15 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    -webkit-text-size-adjust: 100%; /* Evita zoom automático en iOS */
 }
 
+/* Contenedor principal responsive */
 .container {
     max-width: 800px;
-    margin: 40px auto;
+    margin: 20px auto; /* Reducido margen para móviles */
     background: #fff;
-    padding: 20px;
+    padding: 15px; /* Padding reducido para móviles */
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
@@ -21,25 +23,31 @@ body {
 h2 {
     text-align: center;
     color: #333;
+    font-size: 1.5rem; /* Tamaño base */
 }
 
+/* Inputs responsive */
 input[type="text"], input[type="number"], input[type="password"], input[type="email"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px; /* Padding aumentado para mejor touch */
     margin: 8px 0;
     border-radius: 5px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px; /* Previene zoom en iOS */
 }
 
 button {
     width: 100%;
-    padding: 10px;
+    padding: 12px; /* Padding aumentado para touch */
     margin-top: 10px;
     background-color: #3490dc;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px; /* Mejor touch target */
+    touch-action: manipulation; /* Mejora rendimiento en touch */
 }
 
 button:hover {
@@ -60,16 +68,18 @@ ul li {
     text-align: center;
 }
 
-/* MENU */
+/* MENU RESPONSIVE */
 .menu {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 30px;
+    margin-top: 20px; /* Reducido para móviles */
+    gap: 10px; /* Espaciado consistente */
 }
 
 .menu button {
-    width: 250px;
+    width: 100%; /* 100% en móviles, fijo en desktop */
+    max-width: 250px;
     padding: 12px 20px;
     margin: 8px 0;
     font-size: 16px;
@@ -79,21 +89,18 @@ ul li {
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    box-sizing: border-box;
 }
 
 .menu button:hover {
     background-color: #2779bd;
 }
 
-.text-center {
-    text-align: center;
-}
-
-/* DASHBOARD */
+/* DASHBOARD RESPONSIVE */
 .dashboard-container {
     max-width: 800px;
-    margin: 40px auto;
-    padding: 25px;
+    margin: 20px auto; /* Reducido para móviles */
+    padding: 15px; /* Padding reducido */
     background: #fff;
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
@@ -104,107 +111,302 @@ ul li {
     text-align: center;
     color: #333;
     margin-bottom: 20px;
+    font-size: 1.4rem;
 }
 
 .presupuesto-section, .resumen-section, .lista-section {
-    margin-bottom: 25px;
+    margin-bottom: 20px; /* Reducido */
 }
 
+/* Formulario presupuesto responsive */
 .presupuesto-form {
     display: flex;
+    flex-direction: column; /* Stack vertical en móviles */
     justify-content: center;
     gap: 10px;
     margin-top: 10px;
+    width: 100%;
 }
 
 .presupuesto-form input {
-    width: 60%;
-    padding: 8px;
+    width: 100%; /* 100% en móviles */
+    padding: 12px;
     border-radius: 5px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-size: 16px;
 }
 
 .presupuesto-form button {
     background-color: #2c7be5;
     color: white;
     border: none;
-    padding: 8px 15px;
+    padding: 12px;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .presupuesto-form button:hover {
     background-color: #1a68d1;
 }
 
-.tabla-gastos {
+/* Tablas responsive */
+.tabla-gastos, .table, table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
+    font-size: 0.9rem; /* Texto más pequeño en móviles */
+    overflow-x: auto; /* Scroll horizontal si es necesario */
+    display: block;
 }
 
-.tabla-gastos th, .tabla-gastos td {
+.tabla-gastos th, .tabla-gastos td,
+.table th, .table td,
+table th, table td {
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 8px 6px; /* Padding reducido en móviles */
     text-align: left;
+    white-space: nowrap; /* Evita que el texto se rompa */
+    font-size: 0.85rem;
 }
 
-.tabla-gastos th {
-    background-color: #f0f0f0;
+.tabla-gastos th, .table th, table th {
+    background-color: #3490dc;
+    color: white;
+    font-size: 0.9rem;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+    background-color: #e6f0ff;
 }
 
 .sin-gastos {
     text-align: center;
     color: #888;
     font-style: italic;
+    padding: 20px;
 }
 
 .acciones {
     text-align: center;
     margin-top: 20px;
+    display: flex;
+    flex-direction: column; /* Stack vertical en móviles */
+    gap: 10px;
 }
 
 .acciones button {
     background-color: #28a745;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 12px;
     border-radius: 5px;
-    margin: 5px;
     cursor: pointer;
+    font-size: 16px;
+    width: 100%;
 }
 
 .acciones button:hover {
     background-color: #218838;
 }
 
-/* SEMANA */
+/* Botones eliminar responsive */
 .btn-eliminar {
     background-color: #e74c3c;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 8px 12px; /* Mayor touch target */
     border-radius: 5px;
     cursor: pointer;
+    font-size: 14px;
+    min-width: 80px; /* Ancho mínimo para touch */
 }
 
 .btn-eliminar:hover {
     background-color: #c0392b;
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+/* Botones de acciones responsive */
+.btn {
+    padding: 10px 15px; /* Mayor touch target */
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 4px;
+    transition: background-color 0.2s ease;
+    display: inline-block;
+    min-width: 70px; /* Ancho mínimo para touch */
+    text-align: center;
+    box-sizing: border-box;
 }
 
-table th, table td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
+.btn-primary {
+    background-color: #3490dc;
+    color: #fff;
+    border: none;
 }
 
-table th {
-    background-color: #f4f4f4;
+.btn-primary:hover {
+    background-color: #2779bd;
 }
 
+.btn-danger {
+    background-color: #e3342f;
+    color: #fff;
+    border: none;
+}
+
+.btn-danger:hover {
+    background-color: #cc1f1a;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Espaciados */
+.mt-3 {
+    margin-top: 1rem;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* Formularios inline */
+form {
+    display: inline;
+}
+
+/* MEDIA QUERIES PARA RESPONSIVE */
+@media (max-width: 768px) {
+    .container, .dashboard-container {
+        margin: 10px;
+        padding: 10px;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    .dashboard-container h2 {
+        font-size: 1.2rem;
+    }
+    
+    /* Tablas con scroll horizontal en móviles */
+    .tabla-gastos, .table, table {
+        font-size: 0.8rem;
+    }
+    
+    .tabla-gastos th, .tabla-gastos td,
+    .table th, .table td,
+    table th, table td {
+        padding: 6px 4px;
+        font-size: 0.75rem;
+    }
+    
+    /* Botones más grandes en móviles */
+    button, .btn {
+        padding: 14px;
+        font-size: 16px;
+    }
+    
+    .menu button {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .presupuesto-form {
+        gap: 12px;
+    }
+    
+    .acciones {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container, .dashboard-container {
+        margin: 5px;
+        padding: 8px;
+    }
+    
+    h2 {
+        font-size: 1.2rem;
+    }
+    
+    input[type="text"], input[type="number"], input[type="password"], input[type="email"] {
+        padding: 14px;
+    }
+    
+    button, .btn, .btn-eliminar {
+        padding: 16px;
+        font-size: 16px;
+        min-height: 48px; /* Altura mínima recomendada para touch */
+    }
+    
+    .tabla-gastos, .table, table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Scroll suave en tablas */
+    .tabla-gastos::-webkit-scrollbar,
+    .table::-webkit-scrollbar,
+    table::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .tabla-gastos::-webkit-scrollbar-thumb,
+    .table::-webkit-scrollbar-thumb,
+    table::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 3px;
+    }
+}
+
+/* Mejoras para pantallas muy pequeñas */
+@media (max-width: 320px) {
+    .container, .dashboard-container {
+        padding: 5px;
+    }
+    
+    .btn, button {
+        font-size: 14px;
+        padding: 12px;
+    }
+}
+
+/* Evitar zoom en inputs */
+input, select, textarea {
+    font-size: 16px;
+}
+
+/* Mejora para touch en general */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Flexbox mejorado para formularios */
+.presupuesto-form {
+    align-items: stretch;
+}
