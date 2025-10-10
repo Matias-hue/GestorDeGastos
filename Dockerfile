@@ -1,10 +1,10 @@
 # ===========================
-# Imagen base con PHP-FPM
+# Imagen base PHP-FPM
 # ===========================
-FROM php:8.2-cli
+FROM php:8.2-fpm
 
 # ===========================
-# Instalar dependencias del sistema y extensiones de PHP
+# Instalar dependencias del sistema y extensiones PHP
 # ===========================
 RUN apt-get update && apt-get install -y \
     git \
@@ -16,6 +16,9 @@ RUN apt-get update && apt-get install -y \
     zip \
     libzip-dev \
     libpq-dev \
+    nginx \
+    nodejs \
+    npm \
     && docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
@@ -25,45 +28,43 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # ===========================
-# Instalar Node.js y npm (para Vite)
-# ===========================
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
-    && npm install -g npm@latest
-
-# ===========================
-# Establecer directorio de trabajo
+# Directorio de trabajo
 # ===========================
 WORKDIR /var/www/html
 
 # ===========================
-# Copiar archivos del proyecto
+# Copiar proyecto
 # ===========================
 COPY . .
 
 # ===========================
-# Instalar dependencias de PHP
+# Instalar dependencias PHP
 # ===========================
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # ===========================
-# Instalar dependencias de Node.js y construir assets
+# Instalar dependencias Node y construir assets
 # ===========================
 RUN npm install && npm run build
 
 # ===========================
-# Dar permisos correctos
+# Permisos correctos
 # ===========================
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 775 /var/www/html/storage \
     && chmod -R 775 /var/www/html/bootstrap/cache
 
 # ===========================
-# Exponer puerto HTTP
+# Configuración NGINX
 # ===========================
-EXPOSE 8080
+COPY docker/nginx/default.conf /etc/nginx/sites-available/default
 
 # ===========================
-# Comando por defecto (Laravel)
+# Exponer puerto HTTP
 # ===========================
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+EXPOSE 80
+
+# ===========================
+# Comando por defecto
+# ===========================
+CMD ["sh", "-c", "php-fpm -D && nginx -g 'daemon off;'"]
