@@ -4,16 +4,26 @@
 FROM php:8.2-fpm
 
 # ===========================
-# Dependencias del sistema
+# Instalar dependencias del sistema y extensiones PHP
 # ===========================
 RUN apt-get update && apt-get install -y \
-    git unzip curl libpng-dev libonig-dev libxml2-dev zip libzip-dev libpq-dev \
-    nginx nodejs npm \
-    && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd zip \
+    git \
+    unzip \
+    curl \
+    libpng-dev \
+    libonig-dev \
+    libxml2-dev \
+    zip \
+    libzip-dev \
+    libpq-dev \
+    nginx \
+    nodejs \
+    npm \
+    && docker-php-ext-install pdo pdo_pgsql pgsql mbstring exif pcntl bcmath gd zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # ===========================
-# Composer
+# Instalar Composer
 # ===========================
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
@@ -28,9 +38,13 @@ WORKDIR /var/www/html
 COPY . .
 
 # ===========================
-# Instalar dependencias PHP y Node
+# Instalar dependencias PHP
 # ===========================
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
+# ===========================
+# Instalar dependencias Node y construir assets
+# ===========================
 RUN npm install && npm run build
 
 # ===========================
