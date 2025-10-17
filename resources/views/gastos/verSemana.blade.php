@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Detalle de Semana {{ $presupuesto->semana }} - {{ $presupuesto->anio }}</h2>
+    <h2>Detalle de la semana {{ $rangoSemana }}</h2>
 
     <p><strong>Presupuesto:</strong> ${{ number_format($presupuesto->monto, 2) }}</p>
-    <p><strong>Gastado:</strong> ${{ number_format($presupuesto->gastos->sum('monto'), 2) }}</p>
-    <p><strong>Restante:</strong> ${{ number_format($presupuesto->monto - $presupuesto->gastos->sum('monto'), 2) }}</p>
+    <p><strong>Gastado:</strong> ${{ number_format($gastos->sum('monto'), 2) }}</p>
+    <p><strong>Restante:</strong> ${{ number_format($presupuesto->monto - $gastos->sum('monto'), 2) }}</p>
 
     <table class="table table-bordered mt-3">
         <thead>

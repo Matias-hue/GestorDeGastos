@@ -28,7 +28,12 @@ class GastoController extends Controller
         $totalGastos = $gastos->sum('monto');
         $restante = $presupuesto ? $presupuesto->monto - $totalGastos : 0;
 
-        return view('dashboard', compact('presupuesto', 'gastos', 'totalGastos', 'restante'));
+        // Calcular rango de la semana actual
+        $inicioSemana = Carbon::now()->startOfWeek(Carbon::MONDAY)->format('d/m/Y');
+        $finSemana = Carbon::now()->endOfWeek(Carbon::SUNDAY)->format('d/m/Y');
+        $rangoSemana = "Del $inicioSemana al $finSemana";
+
+        return view('dashboard', compact('presupuesto', 'gastos', 'totalGastos', 'restante', 'rangoSemana'));
     }
 
     /**
@@ -96,6 +101,20 @@ class GastoController extends Controller
                 $totalGastos = $presupuesto->gastos->sum('monto');
                 $presupuesto->gastado = $totalGastos;
                 $presupuesto->restante = $presupuesto->monto - $totalGastos;
+
+                // Calcular inicio y fin de semana
+                $inicio = Carbon::now()
+                    ->setISODate($presupuesto->anio, $presupuesto->semana)
+                    ->startOfWeek(Carbon::MONDAY)
+                    ->format('d/m/Y');
+
+                $fin = Carbon::now()
+                    ->setISODate($presupuesto->anio, $presupuesto->semana)
+                    ->endOfWeek(Carbon::SUNDAY)
+                    ->format('d/m/Y');
+
+                $presupuesto->rango = "Del $inicio al $fin";
+
                 return $presupuesto;
             });
 
@@ -110,7 +129,20 @@ class GastoController extends Controller
         $presupuesto = Presupuesto::findOrFail($id);
         $gastos = $presupuesto->gastos;
 
-        return view('gastos.verSemana', compact('presupuesto', 'gastos'));
+        // Mostrar rango de fechas de esa semana
+        $inicio = Carbon::now()
+            ->setISODate($presupuesto->anio, $presupuesto->semana)
+            ->startOfWeek(Carbon::MONDAY)
+            ->format('d/m/Y');
+
+        $fin = Carbon::now()
+            ->setISODate($presupuesto->anio, $presupuesto->semana)
+            ->endOfWeek(Carbon::SUNDAY)
+            ->format('d/m/Y');
+
+        $rangoSemana = "Del $inicio al $fin";
+
+        return view('gastos.verSemana', compact('presupuesto', 'gastos', 'rangoSemana'));
     }
 
     /**

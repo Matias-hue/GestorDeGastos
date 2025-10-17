@@ -11,7 +11,6 @@
             <thead>
                 <tr>
                     <th>Semana</th>
-                    <th>Año</th>
                     <th>Presupuesto</th>
                     <th>Gastado</th>
                     <th>Restante</th>
@@ -21,8 +20,7 @@
             <tbody>
                 @foreach($semanas as $semana)
                 <tr>
-                    <td>{{ $semana->semana }}</td>
-                    <td>{{ $semana->anio }}</td>
+                    <td>{{ $semana->rango }}</td>
                     <td>${{ number_format($semana->monto, 2) }}</td>
                     <td>${{ number_format($semana->gastado, 2) }}</td>
                     <td>${{ number_format($semana->restante, 2) }}</td>
